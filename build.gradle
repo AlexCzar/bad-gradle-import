@@ -35,10 +35,10 @@ dependencies {
 			kotlin("stdlib-jre8"),
 			kotlin("reflect"),
 
-			springBoot("actuator"),
-			springBoot("starter-logging"),
-			springBoot("starter-security"),
-			springBoot("starter-web"),
+			springBoot1("actuator"),
+			springBoot1("starter-logging"),
+			springBoot1("starter-security"),
+			springBoot1("starter-web"),
 
 			"org.springframework.data:spring-data-jpa",
 			"org.springframework:spring-jdbc",
@@ -50,10 +50,10 @@ dependencies {
 			"org.postgresql:postgresql"
 	].each { compile(it) }
 
-	runtime(springBoot("devtools"))
+	runtime(springBoot1("devtools"))
 
 	[
-			springBoot("starter-test"),
+			springBoot1("starter-test"),
 			springSecurity1("test")
 	].each { testCompile(it) }
 }
@@ -69,10 +69,8 @@ def kotlin(String module, String version = "1.1.51"){
 	return "org.jetbrains.kotlin:kotlin-$module"
 }
 
-def springBoot(String module, String version = "") { return "org.springframework.boot:spring-boot-$module:$version" }
+static def springBoot1(String module, String version = "") { return "org.springframework.boot:spring-boot-$module:$version" }
 
-def springFramework1(String module, String version = "") { return "org.springframework:spring-$module:$version" }
-
-def springSecurity1(String module, String version = "") {
+static def springSecurity1(String module, String version = "") {
 	return "org.springframework.security:spring-security-$module:$version"
 }
