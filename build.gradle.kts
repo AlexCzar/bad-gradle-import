@@ -53,29 +53,12 @@ dependencies {
 			kotlin("stdlib-jre8"),
 			kotlin("reflect"),
 
-			springBoot("actuator"),
 			springBoot("starter-logging"),
-			springBoot("starter-security"),
-			springBoot("starter-web"),
-
-			"org.springframework.data:spring-data-jpa",
-			"org.springframework:spring-jdbc",
-			"org.hibernate:hibernate-entitymanager",
-			"com.h2database:h2",
-
-			springSecurity("config"),
-			springSecurity("web"),
-			"org.postgresql:postgresql"
+			springBoot("starter-web")
 	).forEach { compile(it) }
 
-	runtime(springBoot("devtools"))
-
-	listOf(
-			springBoot("starter-test"),
-			springSecurity("test")
-	).forEach { testCompile(it) }
+	testCompile(springBoot("starter-test"))
 }
 
 fun springBoot(module: String, version: String = "") = "org.springframework.boot:spring-boot-$module:$version"
 fun springFramework(module: String, version: String = "") = "org.springframework:spring-$module:$version"
-fun springSecurity(module: String, version: String = "") = "org.springframework.security:spring-security-$module:$version"

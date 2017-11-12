@@ -1,35 +1,23 @@
 = bad-gradle-import
 
-Demo project for https://youtrack.jetbrains.com/issue/IDEA-181700
+Demo project for to demonstrate gradle adding unnecessary libs to classpath
 
 == How to reproduce
 
-.Groovy
-. clone the project
-. import into IntelliJ IDEA (I was using latest at the time: 2017.2.5 Ultimate)
-. run main
-
-it will work
-
 .Kotlin-dsl
-. uncomment buildFileName in settings.gradle
-. refresh/reimport the project in intellij
-. run main
+. clone the project
+. run `./gradlew build`
 
-it won't work with following output:
+it won't work with following exception (trace removed for brevity):
 ```
-SLF4J: Class path contains multiple SLF4J bindings.
-SLF4J: Found binding in [jar:file:/home/czar/.gradle/caches/4.3/generated-gradle-jars/gradle-api-4.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-SLF4J: Found binding in [jar:file:/home/czar/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/7c4f3c474fb2c041d8028740440937705ebb473a/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
-SLF4J: Actual binding is of type [org.gradle.internal.logging.slf4j.OutputEventListenerBackedLoggerContext]
-file:/home/czar/personal/work/bad-gradle-import/out/production/classes/
-Exception in thread "restartedMain" java.lang.reflect.InvocationTargetException
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+java.lang.IllegalStateException: Failed to load ApplicationContext
+...
 Caused by: java.lang.IllegalArgumentException: LoggerFactory is not a Logback LoggerContext but Logback is on the classpath. Either remove Logback or the competing implementation (class org.gradle.internal.logging.slf4j.OutputEventListenerBackedLoggerContext loaded from file:/home/czar/.gradle/caches/4.3/generated-gradle-jars/gradle-api-4.3.jar). If you are using WebLogic you will need to add 'org.slf4j' to prefer-application-packages in WEB-INF/weblogic.xml: org.gradle.internal.logging.slf4j.OutputEventListenerBackedLoggerContext
-
+...
 ```
+
+.Groovy
+. comment out buildFileName in gradle.settings to switch to groovy based configuration
+. run `./gradlew build`
+
+it will work in spite of both files being the same in terms of what is configured
