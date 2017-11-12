@@ -20,4 +20,4 @@ Caused by: java.lang.IllegalArgumentException: LoggerFactory is not a Logback Lo
 . comment out buildFileName in gradle.settings to switch to groovy based configuration
 . run `./gradlew build`
 
-it will work in spite of both files being the same in terms of what is configured
+it will work despite of both files being the same in terms of what is configured
